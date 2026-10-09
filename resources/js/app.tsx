@@ -13,13 +13,15 @@ void createInertiaApp({
     layout: (name) => {
         switch (true) {
             case name === 'home':
+            case name === 'error-403':
+            case name === 'student/exams/workstation':
                 return null;
             case name.startsWith('auth/'):
                 return AuthLayout;
             case name.startsWith('settings/'):
                 return [AppLayout, SettingsLayout];
             default:
-                return AppLayout;
+                return null;
         }
     },
     strictMode: true,

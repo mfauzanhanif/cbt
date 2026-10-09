@@ -124,7 +124,7 @@ export function AppSidebar() {
     }
 
     return (
-        <Sidebar collapsible="icon" variant="inset" className="border-r-2 border-border bg-secondary-background text-foreground">
+        <Sidebar collapsible="icon" variant="sidebar" className="border-r-2 border-border bg-secondary-background text-foreground">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

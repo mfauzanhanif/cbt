@@ -24,8 +24,9 @@ export default function AuthSimpleLayout({
                                 <span>Computer Based Test</span>
                             </Link>
 
+                            <br />
                             <div className="space-y-1">
-                                <h1 className="text-xl font-heading text-foreground">{title}</h1>
+                                <h2 className="text-xl font-heading text-foreground">{title}</h2>
                                 {description && (
                                     <p className="text-center text-sm font-base text-foreground/70">
                                         {description}

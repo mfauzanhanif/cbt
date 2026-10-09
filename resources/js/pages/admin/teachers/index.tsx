@@ -256,7 +256,7 @@ export default function TeachersIndex({ teachers, filters }: Props) {
                                         onClick={() => handleOpenEdit(teacher)}
                                         className="rounded border-2 border-[#1C293C] bg-white px-2.5 py-1 font-bold shadow-[2px_2px_0px_0px_#1C293C]"
                                     >
-                                        Edit
+                                        Ubah
                                     </button>
                                     <button
                                         type="button"

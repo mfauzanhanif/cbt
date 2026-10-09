@@ -26,6 +26,7 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { dashboard } from '@/routes';
+import AppLayout from '@/layouts/app-layout';
 
 interface DashboardStats {
     totalStudents?: number;
@@ -53,7 +54,7 @@ export default function Dashboard() {
     const isMahasiswa = roles.includes('mahasiswa');
 
     return (
-        <>
+        <AppLayout breadcrumbs={[{ title: 'Dashboard', href: dashboard() }]}>
             <Head title="Dashboard - CBT" />
 
             <div className="flex flex-col gap-6 p-4 md:p-6">
@@ -365,7 +366,7 @@ export default function Dashboard() {
                                                 Impor Data Massal
                                             </div>
                                             <div className="text-xs text-foreground/70">
-                                                Upload file Excel / XLSX
+                                                Unggah berkas Excel / XLSX
                                             </div>
                                         </div>
                                     </Link>
@@ -526,15 +527,6 @@ export default function Dashboard() {
                     </Card>
                 </div>
             </div>
-        </>
+        </AppLayout>
     );
 }
-
-Dashboard.layout = {
-    breadcrumbs: [
-        {
-            title: 'Dashboard',
-            href: dashboard(),
-        },
-    ],
-};

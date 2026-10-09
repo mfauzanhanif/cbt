@@ -1,32 +1,43 @@
+# ==============================================================================
+# Makefile - CBT (Computer Based Test) Deployment & Development Automation
+# ==============================================================================
+
 # Variables
 APP_NAME     ?= cbt
-CBT_ARCHIVE  ?= $(APP_NAME).tar.gz
+CBT_ZIP      ?= $(APP_NAME).zip
+CBT_TAR      ?= $(APP_NAME).tar.gz
+CBT_ARCHIVE  ?= $(CBT_ZIP)
 DB_ARCHIVE   ?= $(APP_NAME).sql
 DB_NAME      ?= cbt
 DB_USER      ?= root
 OUTPUT_DIR   ?= ..
 
-.PHONY: help dev build install fresh migrate seed test lint types clean deploy deploy-cbt deploy-db
+.PHONY: help dev build install fresh migrate seed test lint types clean deploy deploy-zip deploy-tar deploy-db
 
 help:
-	@echo "Usage: make [target]"
+	@echo "======================================================================"
+	@echo " CBT (Computer Based Test) - Development & Deployment Toolkit"
+	@echo "======================================================================"
+	@echo "Penggunaan: make [target]"
 	@echo ""
-	@echo "Development:"
-	@echo "  dev          Jalankan local development server (PHP & Vite)"
+	@echo "Pengembangan Lokal (Development):"
+	@echo "  dev          Jalankan server pengembangan lokal (PHP & Vite)"
 	@echo "  build        Kompilasi aset frontend untuk produksi (pnpm run build)"
-	@echo "  install      Install dependensi PHP & Node (composer + pnpm)"
+	@echo "  install      Pasang dependensi PHP & Node (composer + pnpm)"
 	@echo "  migrate      Jalankan database migration"
-	@echo "  fresh        Migrate fresh dengan seeding database"
+	@echo "  fresh        Migrate fresh dengan seeding database lengkap"
 	@echo "  seed         Jalankan database seeder"
-	@echo "  test         Jalankan test suite"
+	@echo "  test         Jalankan rangkaian pengujian otomatis (Pest)"
 	@echo "  lint         Jalankan code linter & formatter (Pint)"
 	@echo "  types        Cek type-checking TypeScript"
-	@echo "  clean        Bersihkan cache Laravel & file sementara"
+	@echo "  clean        Bersihkan cache Laravel & file dev sementara"
 	@echo ""
-	@echo "Deployment / Packaging:"
-	@echo "  deploy       Siapkan arsip monolith dan dump database"
-	@echo "  deploy-cbt   Build frontend, optimasi autoloader, dan arsipkan monolith ke tar.gz"
-	@echo "  deploy-db    Ekspor database MySQL ke file .sql"
+	@echo "Deployment / Packaging (Shared Hosting cPanel tanpa SSH & Node.js):"
+	@echo "  deploy       Siapkan arsip produksi .zip dan dump database .sql"
+	@echo "  deploy-zip   Build frontend, optimasi composer, dan arsipkan ke .zip (Rekomendasi cPanel)"
+	@echo "  deploy-tar   Build frontend, optimasi composer, dan arsipkan ke .tar.gz"
+	@echo "  deploy-db    Ekspor database MySQL ke file .sql (siap import phpMyAdmin)"
+	@echo "======================================================================"
 
 dev:
 	@composer run dev
@@ -57,24 +68,25 @@ types:
 	@pnpm run types:check
 
 clean:
-	@echo "==> Membersihkan cache Laravel & file dev..."
+	@echo "==> Membersihkan cache Laravel & file sementara..."
 	@php artisan optimize:clear
 	@rm -f public/hot
 
-deploy: deploy-cbt deploy-db
+deploy: deploy-zip deploy-db
 
-deploy-cbt:
-	@echo "==> Menghapus file public/hot (jika ada)..."
+# Target arsip ZIP (Format terbaik untuk cPanel File Manager 1-click extract)
+deploy-zip:
+	@echo "==> [1/6] Menghapus file public/hot (jika ada)..."
 	@rm -f public/hot
-	@echo "==> Membersihkan cache lokal Laravel..."
+	@echo "==> [2/6] Membersihkan cache lokal Laravel..."
 	@php artisan optimize:clear
-	@echo "==> Membangun aset frontend produksi (React + Vite)..."
+	@echo "==> [3/6] Membangun aset frontend produksi (React + Vite)..."
 	@pnpm run build
-	@echo "==> Mengoptimalkan autoloader & menghapus dev-dependencies composer..."
+	@echo "==> [4/6] Mengoptimalkan autoloader & menghapus dev-dependencies composer..."
 	@composer install --optimize-autoloader --no-dev
-	@echo "==> Mengkompresi aplikasi monolith ke $(OUTPUT_DIR)/$(CBT_ARCHIVE)..."
-	@rm -f $(OUTPUT_DIR)/$(CBT_ARCHIVE)
-	@tar -czf $(OUTPUT_DIR)/$(CBT_ARCHIVE) \
+	@echo "==> [5/6] Mengompresi aplikasi monolith ke $(OUTPUT_DIR)/$(CBT_ZIP)..."
+	@rm -f $(OUTPUT_DIR)/$(CBT_ZIP)
+	@tar -acf $(OUTPUT_DIR)/$(CBT_ZIP) \
 		--exclude="node_modules" \
 		--exclude=".git" \
 		--exclude=".github" \
@@ -84,7 +96,6 @@ deploy-cbt:
 		--exclude=".env.*" \
 		--exclude=".editorconfig" \
 		--exclude=".gitattributes" \
-		--exclude=".gitignore" \
 		--exclude=".npmrc" \
 		--exclude="phpunit.xml" \
 		--exclude="phpstan.neon" \
@@ -93,18 +104,61 @@ deploy-cbt:
 		--exclude="AGENTS.md" \
 		--exclude="GEMINI.md" \
 		--exclude="README.md" \
+		--exclude="Makefile" \
 		--exclude="public/hot" \
-		--exclude="storage/logs/*" \
+		--exclude="storage/logs/*.log" \
 		--exclude="storage/framework/cache/data/*" \
 		--exclude="storage/framework/sessions/*" \
 		--exclude="storage/framework/views/*" \
 		.
-	@echo "==> Mengembalikan dev-dependencies composer untuk local development..."
+	@echo "==> [6/6] Mengembalikan dev-dependencies composer untuk local development..."
 	@composer install
-	@echo "✔ $(OUTPUT_DIR)/$(CBT_ARCHIVE) siap diupload ke cPanel/Shared Hosting."
+	@echo "✔ SUKSES: $(OUTPUT_DIR)/$(CBT_ZIP) siap diupload dan diekstrak di cPanel File Manager."
 
+# Target arsip TAR.GZ (Format alternatif)
+deploy-tar:
+	@echo "==> [1/6] Menghapus file public/hot (jika ada)..."
+	@rm -f public/hot
+	@echo "==> [2/6] Membersihkan cache lokal Laravel..."
+	@php artisan optimize:clear
+	@echo "==> [3/6] Membangun aset frontend produksi (React + Vite)..."
+	@pnpm run build
+	@echo "==> [4/6] Mengoptimalkan autoloader & menghapus dev-dependencies composer..."
+	@composer install --optimize-autoloader --no-dev
+	@echo "==> [5/6] Mengompresi aplikasi monolith ke $(OUTPUT_DIR)/$(CBT_TAR)..."
+	@rm -f $(OUTPUT_DIR)/$(CBT_TAR)
+	@tar -czf $(OUTPUT_DIR)/$(CBT_TAR) \
+		--exclude="node_modules" \
+		--exclude=".git" \
+		--exclude=".github" \
+		--exclude=".agents" \
+		--exclude="tests" \
+		--exclude=".env" \
+		--exclude=".env.*" \
+		--exclude=".editorconfig" \
+		--exclude=".gitattributes" \
+		--exclude=".npmrc" \
+		--exclude="phpunit.xml" \
+		--exclude="phpstan.neon" \
+		--exclude="pint.json" \
+		--exclude="boost.json" \
+		--exclude="AGENTS.md" \
+		--exclude="GEMINI.md" \
+		--exclude="README.md" \
+		--exclude="Makefile" \
+		--exclude="public/hot" \
+		--exclude="storage/logs/*.log" \
+		--exclude="storage/framework/cache/data/*" \
+		--exclude="storage/framework/sessions/*" \
+		--exclude="storage/framework/views/*" \
+		.
+	@echo "==> [6/6] Mengembalikan dev-dependencies composer untuk local development..."
+	@composer install
+	@echo "✔ SUKSES: $(OUTPUT_DIR)/$(CBT_TAR) siap diupload."
+
+# Target dump database SQL
 deploy-db:
 	@echo "==> Melakukan mysqldump untuk database $(DB_NAME)..."
 	@rm -f $(OUTPUT_DIR)/$(DB_ARCHIVE)
-	@mysqldump -u $(DB_USER) --set-gtid-purged=OFF $(DB_NAME) > $(OUTPUT_DIR)/$(DB_ARCHIVE)
-	@echo "✔ $(OUTPUT_DIR)/$(DB_ARCHIVE) siap diupload."
+	@mysqldump -u $(DB_USER) --single-transaction --quick --set-gtid-purged=OFF $(DB_NAME) > $(OUTPUT_DIR)/$(DB_ARCHIVE)
+	@echo "✔ SUKSES: $(OUTPUT_DIR)/$(DB_ARCHIVE) siap diimpor ke phpMyAdmin cPanel."

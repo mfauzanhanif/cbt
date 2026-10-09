@@ -287,7 +287,7 @@ export default function QuestionsIndex({ questions, filters }: Props) {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="text-xs font-bold uppercase text-[#1C293C]">Upload Gambar (Opsional)</label>
+                                        <label className="text-xs font-bold uppercase text-[#1C293C]">Unggah Gambar (Opsional)</label>
                                         <input
                                             type="file"
                                             accept="image/*"

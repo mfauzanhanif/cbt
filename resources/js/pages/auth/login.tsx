@@ -19,7 +19,7 @@ type Props = {
 export default function Login({ status, canResetPassword }: Props) {
     return (
         <>
-            <Head title="Log in" />
+            <Head title="Masuk" />
 
             <Form
                 {...store.form()}
@@ -30,7 +30,7 @@ export default function Login({ status, canResetPassword }: Props) {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">Alamat Email</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -46,14 +46,14 @@ export default function Login({ status, canResetPassword }: Props) {
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
+                                    <Label htmlFor="password">Kata Sandi</Label>
                                     {canResetPassword && (
                                         <TextLink
                                             href={request()}
                                             className="ml-auto text-sm"
                                             tabIndex={5}
                                         >
-                                            Forgot your password?
+                                            Lupa kata sandi?
                                         </TextLink>
                                     )}
                                 </div>
@@ -63,7 +63,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder="Password"
+                                    placeholder="Kata Sandi"
                                 />
                                 <InputError message={errors.password} />
                             </div>
@@ -74,7 +74,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                     name="remember"
                                     tabIndex={3}
                                 />
-                                <Label htmlFor="remember">Remember me</Label>
+                                <Label htmlFor="remember">Ingat Saya</Label>
                             </div>
 
                             <Button
@@ -85,14 +85,14 @@ export default function Login({ status, canResetPassword }: Props) {
                                 data-test="login-button"
                             >
                                 {processing && <Spinner />}
-                                Log in
+                                Masuk
                             </Button>
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground">
-                            Don't have an account?{' '}
+                            Belum punya akun?{' '}
                             <TextLink href={register()} tabIndex={5}>
-                                Sign up
+                                Daftar
                             </TextLink>
                         </div>
                     </>
@@ -103,22 +103,25 @@ export default function Login({ status, canResetPassword }: Props) {
             <div className="mt-6 rounded-base border-2 border-border bg-secondary-background p-5 shadow-xs">
                 <div>
                     <h3 className="text-base font-heading">
-                        Akun Akses Uji Coba (Laragon Seeded)
+                        Akun Akses Uji Coba
                     </h3>
                     <p className="mt-1 text-xs text-foreground/80">
-                        Gunakan akun demo berikut untuk masuk sesuai role:
+                        Gunakan email demo berikut untuk masuk sesuai role:
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2 text-xs font-mono">
                         <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
-                            Admin: admin@fauzanhanif.my.id (pw: password)
+                            Admin: admin@fauzanhanif.my.id
                         </span>
                         <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
-                            Dosen: dosen@fauzanhanif.my.id (pw: password)
+                            Dosen: jazariyah@fauzanhanif.my.id
                         </span>
                         <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
-                            Mahasiswa: mahasiswa@fauzanhanif.my.id (pw: password)
+                            Mahasiswa: mahasiswa@fauzanhanif.my.id
                         </span>
                     </div>
+                    <p className="mt-3 text-xs text-foreground/80">
+                        Kata sandi untuk semua akun: <code className="font-bold text-foreground font-mono">password</code>
+                    </p>
                 </div>
             </div>
 
@@ -132,6 +135,6 @@ export default function Login({ status, canResetPassword }: Props) {
 }
 
 Login.layout = {
-    title: 'Log in to your account',
-    description: 'Enter your email and password below to log in',
+    title: 'Masuk ke Akun Anda',
+    description: 'Masukkan email dan kata sandi Anda di bawah ini untuk masuk',
 };

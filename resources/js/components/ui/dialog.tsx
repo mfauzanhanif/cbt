@@ -73,7 +73,7 @@ function DialogContent({
             className="absolute top-4 right-4 rounded-base border-2 border-border bg-secondary-background p-1 text-foreground transition-all hover:bg-main hover:translate-x-0.5 hover:translate-y-0.5 focus:outline-hidden focus:ring-2 focus:ring-black disabled:pointer-events-none [&_svg]:size-4"
           >
             <XIcon />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">Tutup</span>
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Content>
@@ -111,7 +111,7 @@ function DialogFooter({
       {children}
       {showCloseButton && (
         <DialogPrimitive.Close asChild>
-          <Button variant="outline">Close</Button>
+          <Button variant="outline">Tutup</Button>
         </DialogPrimitive.Close>
       )}
     </div>

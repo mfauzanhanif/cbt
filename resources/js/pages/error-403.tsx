@@ -9,14 +9,14 @@ export default function Error403() {
                 <div className="mb-4 inline-flex items-center justify-center rounded-lg border-2 border-[#1C293C] bg-red-100 p-3 text-red-600 shadow-[3px_3px_0px_0px_#1C293C]">
                     <ShieldAlert className="size-8" />
                 </div>
-                <h1 className="font-heading text-2xl font-black uppercase tracking-tight">403 — Akses Ditolak</h1>
+                <h1 className="text-2xl font-black uppercase tracking-tight">403 — Akses Ditolak</h1>
                 <p className="mt-2 text-sm font-medium text-slate-600">
                     Anda tidak memiliki wewenang atau hak akses yang cukup untuk membuka halaman ini.
                 </p>
                 <div className="mt-6">
                     <Link
                         href="/dashboard"
-                        className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#1C293C] bg-[#FDC800] px-4 py-2.5 font-bold uppercase tracking-wider text-[#1C293C] shadow-[3px_3px_0px_0px_#1C293C] transition-all hover:bg-amber-400 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                        className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#1C293C] bg-[#FDC800] px-4 py-2.5 font-bold uppercase tracking-wider text-[#1C293C] shadow-[3px_3px_0px_0px_#1C293C] transition-all hover:bg-amber-400 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
                     >
                         <ArrowLeft className="size-4" />
                         Kembali ke Dashboard

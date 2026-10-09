@@ -17,6 +17,7 @@ use App\Models\Exam;
 use App\Models\Question;
 use App\Models\QuestionPackage;
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -73,6 +74,14 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
         Route::get('import', [UserImportController::class, 'index'])->name('import.index');
         Route::post('import', [UserImportController::class, 'store'])->name('import.store');
         Route::get('import/template', [UserImportController::class, 'downloadTemplate'])->name('import.template');
+        Route::get('storage-link', function () {
+            Artisan::call('storage:link');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Symlink storage berhasil dibuat.',
+                'output' => Artisan::output(),
+            ]);
+        })->name('storage-link');
     });
 
     // Courses Management (Admin, Dosen, Mahasiswa view)
