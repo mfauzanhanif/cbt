@@ -22,8 +22,8 @@ export default function PublicNavbar({ user }: PublicNavbarProps) {
                         />
                     </div>
                     <div>
-                        <span className="font-heading text-lg font-bold tracking-tight text-foreground">
-                            Computer Based Test
+                        <span className="text-lg font-bold tracking-tight text-foreground">
+                            CBT
                         </span>
                     </div>
                 </div>
