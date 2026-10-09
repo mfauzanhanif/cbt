@@ -1,0 +1,62 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Models\User;
+
+test('login screen can be rendered', function (): void {
+    $response = $this->get(route('login'));
+
+    $response->assertOk();
+});
+
+test('users can authenticate using the login screen', function (): void {
+    $user = User::factory()->create();
+
+    $response = $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+    $response->assertRedirect(route('dashboard', absolute: false));
+});
+
+test('users can not authenticate with invalid password', function (): void {
+    $user = User::factory()->create();
+
+    $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ]);
+
+    $this->assertGuest();
+});
+
+test('users can logout', function (): void {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->post(route('logout'));
+
+    $response->assertRedirect(route('home'));
+
+    $this->assertGuest();
+});
+
+test('users are rate limited', function (): void {
+    $user = User::factory()->create();
+
+    foreach (range(1, 5) as $attempt) {
+        $this->postJson(route('login.store'), [
+            'email' => $user->email,
+            'password' => 'wrong-password',
+        ]);
+    }
+
+    $response = $this->postJson(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'wrong-password',
+    ]);
+
+    $response->assertTooManyRequests();
+});
