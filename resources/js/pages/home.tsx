@@ -25,24 +25,13 @@ import {
 } from '@/components/ui/card';
 import { dashboard, login, register } from '@/routes';
 
-interface PageProps {
-    auth?: {
-        user?: {
-            id: number;
-            name: string;
-            email: string;
-            roles?: string[];
-        };
-    };
-}
-
-export default function Welcome() {
-    const { auth } = usePage<PageProps>().props;
+export default function Home() {
+    const { auth } = usePage().props;
     const user = auth?.user;
 
     return (
         <>
-            <Head title="CBT Kampus - Sistem Ujian Berbasis Komputer" />
+            <Head title="Computer Based Test" />
 
             <div className="min-h-screen bg-background text-foreground">
                 {/* Top Navigation */}
@@ -54,10 +43,7 @@ export default function Welcome() {
                             </div>
                             <div>
                                 <span className="font-heading text-lg tracking-tight">
-                                    CBT KAMPUS
-                                </span>
-                                <span className="hidden text-xs text-foreground/70 sm:inline-block sm:ml-2">
-                                    v1.0 Production
+                                    Computer Based Test
                                 </span>
                             </div>
                         </div>
@@ -97,19 +83,12 @@ export default function Welcome() {
                 <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:py-16">
                     {/* Hero Section */}
                     <div className="mb-14 rounded-base border-2 border-border bg-main p-8 text-main-foreground shadow-shadow md:p-14">
-                        <div className="inline-flex items-center gap-2 rounded-base border-2 border-border bg-secondary-background px-3 py-1 text-xs font-heading text-foreground shadow-xs mb-6">
-                            <Sparkles className="size-4 fill-main text-foreground" />
-                            <span>PLATFORM EVALUASI AKADEMIK TERPERCAYA</span>
-                        </div>
-
                         <h1 className="max-w-4xl text-3xl font-heading leading-tight md:text-5xl lg:text-6xl">
-                            Sistem Ujian Komputer Kampus yang Andal, Presisi, dan Anti-Curang.
+                            Sistem Ujian Berbasis Komputer yang Andal, Presisi, dan Anti-Curang.
                         </h1>
 
                         <p className="mt-6 max-w-2xl text-base font-base leading-relaxed opacity-90 md:text-lg">
-                            Platform Computer-Based Testing (CBT) universitas generasi baru dengan
-                            workstation responsif, penyimpanan instan (autosave beacon), bank soal
-                            multimedia, serta rekapitulasi nilai otomatis.
+                            Platform Computer-Based Testing (CBT) dengan workstation responsif, penyimpanan instan (autosave beacon), bank soal multimedia, serta rekapitulasi nilai otomatis.
                         </p>
 
                         <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -279,13 +258,13 @@ export default function Welcome() {
                                 </p>
                                 <div className="mt-3 flex flex-wrap gap-2 text-xs font-mono">
                                     <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
-                                        Admin: admin@cbt.test (pw: password)
+                                        Admin: admin@fauzanhanif.my.id (pw: password)
                                     </span>
                                     <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
-                                        Dosen: dosen@cbt.test (pw: password)
+                                        Dosen: dosen@fauzanhanif.my.id (pw: password)
                                     </span>
                                     <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
-                                        Mahasiswa: mahasiswa@cbt.test (pw: password)
+                                        Mahasiswa: mahasiswa@fauzanhanif.my.id (pw: password)
                                     </span>
                                 </div>
                             </div>
@@ -304,12 +283,7 @@ export default function Welcome() {
                 <footer className="border-t-2 border-border bg-secondary-background py-8">
                     <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 text-sm">
                         <div className="font-heading">
-                            © 2026 CBT KAMPUS. All rights reserved.
-                        </div>
-                        <div className="flex items-center gap-4 text-xs font-mono text-foreground/70">
-                            <span>Functional Neo-Brutalism</span>
-                            <span>•</span>
-                            <span>Monochromatic & Duotone Amber</span>
+                            © 2026 M Fauzan Hanif | All rights reserved.
                         </div>
                     </div>
                 </footer>

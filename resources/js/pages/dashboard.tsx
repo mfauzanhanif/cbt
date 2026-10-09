@@ -40,17 +40,9 @@ interface DashboardStats {
     availableExams?: number;
 }
 
-interface PageProps {
-    auth: {
-        user: {
-            id: number;
-            name: string;
-            email: string;
-            roles: string[];
-        };
-    };
+type PageProps = {
     stats: DashboardStats;
-}
+};
 
 export default function Dashboard() {
     const { auth, stats } = usePage<PageProps>().props;
@@ -62,7 +54,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <Head title="Dashboard - CBT Kampus" />
+            <Head title="Dashboard - CBT" />
 
             <div className="flex flex-col gap-6 p-4 md:p-6">
                 {/* Hero / Welcome Banner */}

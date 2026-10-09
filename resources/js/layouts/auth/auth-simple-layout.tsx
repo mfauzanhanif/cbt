@@ -21,7 +21,7 @@ export default function AuthSimpleLayout({
                                 <div className="flex h-10 w-10 items-center justify-center rounded-base border-2 border-border bg-main shadow-xs">
                                     <AppLogoIcon className="size-6 fill-current text-foreground" />
                                 </div>
-                                <span>CBT Kampus</span>
+                                <span>Computer Based Test</span>
                             </Link>
 
                             <div className="space-y-1">

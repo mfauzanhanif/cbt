@@ -137,7 +137,7 @@ export function MediaAttachment({
         } else if (mediaUrl) {
             const anchor = document.createElement('a');
             anchor.href = mediaUrl;
-            anchor.download = media.file_name || media.name;
+            anchor.download = media.file_name || media.name || '';
             anchor.target = '_blank';
             document.body.appendChild(anchor);
             anchor.click();

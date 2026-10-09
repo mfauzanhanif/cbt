@@ -99,6 +99,29 @@ export default function Login({ status, canResetPassword }: Props) {
                 )}
             </Form>
 
+            {/* Quick Demo Credentials Info for Testing */}
+            <div className="mt-6 rounded-base border-2 border-border bg-secondary-background p-5 shadow-xs">
+                <div>
+                    <h3 className="text-base font-heading">
+                        Akun Akses Uji Coba (Laragon Seeded)
+                    </h3>
+                    <p className="mt-1 text-xs text-foreground/80">
+                        Gunakan akun demo berikut untuk masuk sesuai role:
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2 text-xs font-mono">
+                        <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
+                            Admin: admin@fauzanhanif.my.id (pw: password)
+                        </span>
+                        <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
+                            Dosen: dosen@fauzanhanif.my.id (pw: password)
+                        </span>
+                        <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
+                            Mahasiswa: mahasiswa@fauzanhanif.my.id (pw: password)
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             {status && (
                 <div className="mb-4 text-center text-sm font-medium text-green-600">
                     {status}
