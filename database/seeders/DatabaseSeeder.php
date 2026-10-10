@@ -44,11 +44,11 @@ class DatabaseSeeder extends Seeder
         );
         $admin->syncRoles([Role::Admin->value]);
 
-        // 4. Create default Dosen account (Jazariyah)
+        // 4. Create default Dosen account
         $dosen = User::firstOrCreate(
-            ['email' => 'jazariyah@fauzanhanif.my.id'],
+            ['email' => 'dosen@fauzanhanif.my.id'],
             [
-                'name' => 'Jazariyah',
+                'name' => 'Dosen',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
                 'is_active' => true,

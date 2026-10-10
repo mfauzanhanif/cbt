@@ -19,7 +19,7 @@ export default function PublicDemoCredentials() {
                             Admin: admin@fauzanhanif.my.id
                         </span>
                         <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
-                            Dosen: jazariyah@fauzanhanif.my.id
+                            Dosen: dosen@fauzanhanif.my.id
                         </span>
                         <span className="rounded-base border-2 border-border bg-main/40 px-2.5 py-1">
                             Mahasiswa: mahasiswa@fauzanhanif.my.id
