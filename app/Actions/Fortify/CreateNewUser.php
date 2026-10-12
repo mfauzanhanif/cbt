@@ -34,6 +34,8 @@ class CreateNewUser implements CreatesNewUsers
             'is_active' => true,
         ]);
 
+        $user->markEmailAsVerified();
+
         $user->assignRole(Role::Mahasiswa->value);
 
         return $user;

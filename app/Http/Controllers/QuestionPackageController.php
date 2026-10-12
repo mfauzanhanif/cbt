@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\Role;
 use App\Http\Requests\QuestionPackage\StoreQuestionPackageRequest;
+use App\Http\Requests\QuestionPackage\SyncQuestionsRequest;
+use App\Http\Requests\QuestionPackage\UpdateQuestionPackageRequest;
 use App\Models\Question;
 use App\Models\QuestionPackage;
 use Illuminate\Http\RedirectResponse;
@@ -18,6 +20,8 @@ class QuestionPackageController extends Controller
 {
     public function index(Request $request): Response
     {
+        Gate::authorize('viewAny', QuestionPackage::class);
+
         $user = $request->user();
         $search = $request->query('search');
 
@@ -79,7 +83,7 @@ class QuestionPackageController extends Controller
         ]);
     }
 
-    public function update(StoreQuestionPackageRequest $request, QuestionPackage $package): RedirectResponse
+    public function update(UpdateQuestionPackageRequest $request, QuestionPackage $package): RedirectResponse
     {
         Gate::authorize('update', $package);
 
@@ -97,19 +101,17 @@ class QuestionPackageController extends Controller
         return redirect()->route('question-packages.index')->with('success', 'Paket soal berhasil dihapus.');
     }
 
-    public function syncQuestions(Request $request, QuestionPackage $package): RedirectResponse
+    public function syncQuestions(SyncQuestionsRequest $request, QuestionPackage $package): RedirectResponse
     {
         Gate::authorize('update', $package);
 
-        $validated = $request->validate([
-            'items' => ['required', 'array'],
-            'items.*.question_id' => ['required', 'integer', 'exists:questions,id'],
-            'items.*.order' => ['required', 'integer'],
-        ]);
+        $validated = $request->validated();
 
         $syncData = [];
-        foreach ($validated['items'] as $item) {
-            $syncData[$item['question_id']] = ['order' => $item['order']];
+        if (! empty($validated['items'])) {
+            foreach ($validated['items'] as $item) {
+                $syncData[$item['question_id']] = ['order' => $item['order']];
+            }
         }
 
         $package->questions()->sync($syncData);

@@ -23,7 +23,7 @@ use Inertia\Inertia;
 
 Route::inertia('/', 'home')->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function (): void {
+Route::middleware(['auth'])->group(function (): void {
     Route::get('dashboard', function () {
         $user = request()->user();
 
@@ -76,6 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
         Route::get('import/template', [UserImportController::class, 'downloadTemplate'])->name('import.template');
         Route::get('storage-link', function () {
             Artisan::call('storage:link');
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Symlink storage berhasil dibuat.',
@@ -90,21 +91,25 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::delete('courses/{course}/students/{student}', [CourseController::class, 'removeStudent'])->name('courses.students.remove');
 
     // Questions & Question Packages (Dosen & Admin)
-    Route::resource('questions', QuestionController::class)->except(['create', 'show', 'edit']);
-    Route::post('questions/{question}/duplicate', [QuestionController::class, 'duplicate'])->name('questions.duplicate');
+    Route::middleware(['role:admin|dosen'])->group(function (): void {
+        Route::resource('questions', QuestionController::class)->except(['create', 'show', 'edit']);
+        Route::post('questions/{question}/duplicate', [QuestionController::class, 'duplicate'])->name('questions.duplicate');
 
-    Route::resource('question-packages', QuestionPackageController::class)->except(['create', 'edit']);
-    Route::post('question-packages/{package}/sync-questions', [QuestionPackageController::class, 'syncQuestions'])->name('question-packages.sync-questions');
+        Route::resource('question-packages', QuestionPackageController::class)
+            ->parameters(['question-packages' => 'package'])
+            ->except(['create', 'edit']);
+        Route::post('question-packages/{package}/sync-questions', [QuestionPackageController::class, 'syncQuestions'])->name('question-packages.sync-questions');
 
-    // Exam Scheduling & Grades (Dosen & Admin)
-    Route::resource('exams', ExamController::class)->except(['create', 'show', 'edit']);
-    Route::patch('exams/{exam}/toggle-status', [ExamController::class, 'toggleStatus'])->name('exams.toggle-status');
-    Route::get('exams/{exam}/grades', [ExamGradeController::class, 'index'])->name('exams.grades.index');
-    Route::get('exams/{exam}/grades/export', [ExamGradeController::class, 'export'])->name('exams.grades.export');
-    Route::get('exams/{exam}/grades/{attempt}/review', [ExamGradeController::class, 'review'])->name('exams.grades.review');
+        // Exam Scheduling & Grades (Dosen & Admin)
+        Route::resource('exams', ExamController::class)->except(['create', 'show', 'edit']);
+        Route::patch('exams/{exam}/toggle-status', [ExamController::class, 'toggleStatus'])->name('exams.toggle-status');
+        Route::get('exams/{exam}/grades', [ExamGradeController::class, 'index'])->name('exams.grades.index');
+        Route::get('exams/{exam}/grades/export', [ExamGradeController::class, 'export'])->name('exams.grades.export');
+        Route::get('exams/{exam}/grades/{attempt}/review', [ExamGradeController::class, 'review'])->name('exams.grades.review');
+    });
 
     // Student Exam Workstation & Grades
-    Route::prefix('student')->name('student.')->group(function (): void {
+    Route::middleware(['role:mahasiswa|admin'])->prefix('student')->name('student.')->group(function (): void {
         Route::get('exams', [ExamWorkstationController::class, 'index'])->name('exams.index');
         Route::post('exams/{exam}/start', [ExamWorkstationController::class, 'start'])->name('exams.start');
         Route::get('exams/{exam}/workstation', [ExamWorkstationController::class, 'showWorkstation'])->name('exams.workstation');

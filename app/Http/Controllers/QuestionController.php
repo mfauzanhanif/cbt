@@ -20,6 +20,8 @@ class QuestionController extends Controller
 {
     public function index(Request $request): Response
     {
+        Gate::authorize('viewAny', Question::class);
+
         $user = $request->user();
         $search = $request->query('search');
         $difficulty = $request->query('difficulty');

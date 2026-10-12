@@ -1,6 +1,6 @@
 # 🎓 CBT (Computer Based Test) System
 
-Sistem ujian berbasis komputer modern (**Computer Based Test**) yang dibangun dengan arsitektur monolith tangguh menggunakan **Laravel 12**, **Inertia.js v3**, **React 19**, **Tailwind CSS v4**, dan **TypeScript**. Didesain untuk institusi pendidikan, perguruan tinggi, sekolah, maupun pelatihan profesional.
+Sistem ujian berbasis komputer modern (**Computer Based Test**) yang dibangun dengan arsitektur monolith tangguh menggunakan **Laravel 13**, **Inertia.js v3**, **React 19**, **Tailwind CSS v4**, dan **TypeScript**. Didesain untuk institusi pendidikan, perguruan tinggi, sekolah, maupun pelatihan profesional.
 
 ---
 
@@ -14,8 +14,8 @@ Sistem ujian berbasis komputer modern (**Computer Based Test**) yang dibangun de
 - Otentikasi aman via **Laravel Fortify** lengkap dengan dukungan **Passkeys / WebAuthn**, reset kata sandi, dan pembatasan sesi.
 - Fitur aktivasi & penonaktifan akun secara instan (*toggle active status*).
 
-### 📚 2. Manajemen Akademik & Mata Kuliah
-- Pengelolaan data mata kuliah / kelas perkuliahan.
+### 📚 2. Manajemen Akademik
+- Pengelolaan data mata kuliah / kelas.
 - Pemetaan dosen pengampu dan pendaftaran mahasiswa ke dalam mata kuliah (*course enrollment*).
 
 ### 📝 3. Bank Soal & Paket Soal Terpadu
@@ -51,7 +51,7 @@ Sistem ujian berbasis komputer modern (**Computer Based Test**) yang dibangun de
 
 | Layer | Teknologi |
 |---|---|
-| **Backend Framework** | [Laravel 12](https://laravel.com/) (PHP 8.2+) |
+| **Backend Framework** | [Laravel 13](https://laravel.com/) (PHP 8.2+) |
 | **Frontend Framework** | [React 19](https://react.dev/) |
 | **SPA Bridge** | [Inertia.js v3](https://inertiajs.com/) (`@inertiajs/react`) |
 | **CSS & UI Engine** | [Tailwind CSS v4](https://tailwindcss.com/) & [Radix UI](https://www.radix-ui.com/) |
